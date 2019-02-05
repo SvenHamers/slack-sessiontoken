@@ -8,13 +8,12 @@ import (
 	"net/url"
 	"strings"
 	"bufio"
-	"os"
 	"github.com/PuerkitoBio/goquery"
 	"fmt"
 )
 
 const (
-	baseURL = "https://<slackurl>.slack.com"
+	baseURL = "https://<slackname>.slack.com"
 )
 
 var (
@@ -81,20 +80,7 @@ func (app *App) GetToken() string {
 	}
 
 	pageContent := string(body)
-	bytes := []byte(pageContent)
-
-    err = ioutil.WriteFile("output.txt", bytes, 0644)
-    if err != nil {
-        panic(err)
-	}
-	
-	file, err := os.Open("output.txt")
-    if err != nil {
-        log.Fatal(err)
-    }
-    defer file.Close()
-
-    scanner := bufio.NewScanner(file)
+    scanner := bufio.NewScanner(strings.NewReader(pageContent))
     for scanner.Scan() {
 		if strings.Contains(scanner.Text(), "api_token:"){
 			return strings.Split(scanner.Text(), "\"")[1]			
