@@ -1,4 +1,4 @@
-# Slack get sesion token
+# Slack get session token
 
 Gets a session api key from slack. 
 
